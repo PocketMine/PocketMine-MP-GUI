@@ -136,11 +136,11 @@ class mainFrame extends \wxFrame {
 		$bSizerMain->Add($bSizerLeft, 0, wxALL|wxEXPAND, 5);
 		$bSizerRight = new \wxBoxSizer(wxVERTICAL);
 		$bSizerRight->SetMinSize(new \wxSize(-1, -1));
-			$sbSizerConsole = new \wxStaticBoxSizer(new \wxStaticBox($this, wxID_ANY, "Console"), wxVERTICAL);
-			$this->bTextConsole = new \wxTextCtrl($this, wxID_ANY, "console", wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxTE_AUTO_URL|wxTE_MULTILINE|wxALWAYS_SHOW_SB|wxSTATIC_BORDER|wxTE_READONLY);
-			$sbSizerConsole->Add( $this->bTextConsole, 1, wxALL|wxEXPAND, 5 );
-			$this->bTextSend = new \wxTextCtrl($this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0|wxSTATIC_BORDER|wxWANTS_CHARS);
-			$sbSizerConsole->Add( $this->bTextSend, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5);
+			$sbSizerConsole = new \wxStaticBoxSizer(new \wxStaticBox($this, wxID_ANY, "Log and chat"), wxVERTICAL);
+			$this->bTextConsole = new \wxTextCtrl($this, wxID_ANY, "[TEST] test line", wxDefaultPosition, wxDefaultSize, wxVSCROLL|wxHSCROLL|wxALWAYS_SHOW_SB|wxSTATIC_BORDER|wxTE_READONLY|wxTE_MULTILINE);
+			$sbSizerConsole->Add( $this->bTextConsole, 1, wxEXPAND, 5 );
+			$this->bTextSend = new \wxTextCtrl($this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_NO_VSCROLL);
+			$sbSizerConsole->Add( $this->bTextSend, 0, wxEXPAND, 5);
 			$bSizerRight->Add($sbSizerConsole, 1, wxEXPAND, 5);
 		$bSizerMain->Add($bSizerRight, 1, wxALL|wxEXPAND, 5);
 			
@@ -178,7 +178,8 @@ class pmGui extends \wxApp {
 		$this->mf->Show();
 		return true;
 	}
-	function OnExit() {
+	function OnExit(){
+		//TODO: call normal server stop procedure
 		return false;
 	}
 }
