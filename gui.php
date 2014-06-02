@@ -64,27 +64,27 @@ class mainFrame extends \wxFrame {
 		$this->menuServer->Append($this->menuServerStart);
 		$this->menuServer->AppendSeparator();
 		$this->menuServerExit = new \wxMenuItem($this->menuServer, wxID_ANY, "&Exit", "Exit server ...", wxITEM_NORMAL);
-		//$this->menuServerExit->SetBitmap(new \wxBitmap("./images/exit.png", wxBITMAP_TYPE_PNG));
+		$this->menuServerExit->SetBitmap(new \wxBitmap("./images/exit.png", wxBITMAP_TYPE_PNG));
 		$this->menuServer->Append($this->menuServerExit);	
 
 		$this->menuOptions = new \wxMenu();
 		$this->menuBar->Append( $this->menuOptions, "&Options" );
 		$this->menuOptionsProp = new \wxMenuItem($this->menuOptions, wxID_ANY, "&Properties", "Edit server.properties file ...", wxITEM_NORMAL);
-		//$this->menuOptionsProp->SetBitmap(new \wxBitmap("./images/prop.png", wxBITMAP_TYPE_PNG));
+		$this->menuOptionsProp->SetBitmap(new \wxBitmap("./images/prop.png", wxBITMAP_TYPE_PNG));
 		$this->menuOptions->Append($this->menuOptionsProp);
 		$this->menuOptions->AppendSeparator();
 		$this->menuOptionsPlug = new \wxMenuItem($this->menuOptions, wxID_ANY, "P&lugins", "Open plugins manager ...", wxITEM_NORMAL);
-		//$this->menuOptionsPlug->SetBitmap(new \wxBitmap("./images/plug.png", wxBITMAP_TYPE_PNG));
+		$this->menuOptionsPlug->SetBitmap(new \wxBitmap("./images/plug.png", wxBITMAP_TYPE_PNG));
 		$this->menuOptions->Append($this->menuOptionsPlug);
 
 		$this->menuHelp = new \wxMenu();
 		$this->menuBar->Append($this->menuHelp, "&Help");
 		$this->menuHelpForums = new \wxMenuItem($this->menuHelp, wxID_ANY, "&Forums", "Open http://forums.pocketmine.net ...", wxITEM_NORMAL);
-		//$this->menuHelpForums->SetBitmap(new \wxBitmap("./images/link.png", wxBITMAP_TYPE_PNG));
+		$this->menuHelpForums->SetBitmap(new \wxBitmap("./images/link.png", wxBITMAP_TYPE_PNG));
 		$this->menuHelp->Append($this->menuHelpForums);
 		$this->menuHelp->AppendSeparator();
 		$this->menuHelpAbout = new \wxMenuItem($this->menuHelp, wxID_ANY, "&About...", "About PocketMine-MP ...", wxITEM_NORMAL);
-		//$this->menuHelpAbout->SetBitmap(new \wxBitmap("./images/about.png", wxBITMAP_TYPE_PNG));
+		$this->menuHelpAbout->SetBitmap(new \wxBitmap("./images/about.png", wxBITMAP_TYPE_PNG));
 		$this->menuHelp->Append($this->menuHelpAbout);
 		
 		$this->SetMenuBar($this->menuBar);
