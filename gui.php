@@ -21,7 +21,7 @@
 
 namespace pocketmine\gui;
 
-class mainFrame extends \wxFrame {
+class frmMain extends \wxFrame {
 
 	function onMenuServerExit() {
 		$this->Destroy();
@@ -41,6 +41,10 @@ class mainFrame extends \wxFrame {
   
 	function onMenuHelpForums() {
 		wxLaunchDefaultBrowser("http://forums.pocketmine.net");
+	}
+	
+	function onMenuOptionsProp() {
+		$this->ServerProperties->ShowModal();
 	}
 
 	function onMenuHelpAbout() {
@@ -154,9 +158,12 @@ class mainFrame extends \wxFrame {
 		$this->Connect($this->menuServerExit->GetId(), wxEVT_COMMAND_MENU_SELECTED, array($this,"onMenuServerExit"));
 		$this->Connect($this->menuHelpForums->GetId(), wxEVT_COMMAND_MENU_SELECTED, array($this,"onMenuHelpForums"));
 		$this->Connect($this->menuHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, array($this,"onMenuHelpAbout"));
+		$this->Connect($this->menuOptionsProp->GetId(), wxEVT_COMMAND_MENU_SELECTED, array($this,"onMenuOptionsProp"));
 		$this->lbPlayers->Connect(wxEVT_RIGHT_DOWN, array($this,"onMenulbPlayers"));
 		
 		$this->Centre(wxBOTH);
+		
+		$this->ServerProperties = new frmProperties($this);
 	}
 	
 	function __destruct() {}
@@ -171,10 +178,100 @@ class mainFrame extends \wxFrame {
 	}
 }
 
-class pmGui extends \wxApp {
+class frmProperties extends \wxDialog {
+	
+	function __construct( $parent=null ){
+		parent::__construct ($parent, wxID_ANY, "server.properties", wxDefaultPosition, new \wxSize( 500,300 ), wxDEFAULT_DIALOG_STYLE);
+		
+		$this->SetSizeHints(wxDefaultSize, wxDefaultSize);
+		
+		$bSizer = new \wxBoxSizer(wxVERTICAL);
+		
+		$this->gridProp = new \wxGrid($this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
+
+		$this->gridProp->CreateGrid(25, 1);
+		$this->gridProp->EnableEditing(true);
+		$this->gridProp->EnableGridLines(true);
+		$this->gridProp->EnableDragGridSize(false);
+		$this->gridProp->SetMargins(0, 0);
+
+		$this->gridProp->SetColSize(0, 267);
+		$this->gridProp->EnableDragColMove(false);
+		$this->gridProp->EnableDragColSize(false);
+		$this->gridProp->SetColLabelSize(30);
+		$this->gridProp->SetColLabelValue(0, "Values");
+		$this->gridProp->SetColLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
+
+		$this->gridProp->AutoSizeRows();
+		$this->gridProp->EnableDragRowSize(false);
+		$this->gridProp->SetRowLabelSize(200);
+		$this->gridProp->SetRowLabelValue(0, "server-name");
+		$this->gridProp->SetRowLabelValue(1, "server-port");
+		$this->gridProp->SetRowLabelValue(2, "memory-limit");
+		$this->gridProp->SetRowLabelValue(3, "gamemode");
+		$this->gridProp->SetRowLabelValue(4, "max-players");
+		$this->gridProp->SetRowLabelValue(5, "spawn-protection");
+		$this->gridProp->SetRowLabelValue(6, "white-list");
+		$this->gridProp->SetRowLabelValue(7, "enable-query");
+		$this->gridProp->SetRowLabelValue(8, "enable-rcon");
+		$this->gridProp->SetRowLabelValue(9, "send-usage");
+		$this->gridProp->SetRowLabelValue(10, "motd");
+		$this->gridProp->SetRowLabelValue(11, "announce-player-achievements");
+		$this->gridProp->SetRowLabelValue(12, "view-distance");
+		$this->gridProp->SetRowLabelValue(13, "allow-flight");
+		$this->gridProp->SetRowLabelValue(14, "spawn-animals");
+		$this->gridProp->SetRowLabelValue(15, "spawn-mobs");
+		$this->gridProp->SetRowLabelValue(16, "hardcore");
+		$this->gridProp->SetRowLabelValue(17, "pvp");
+		$this->gridProp->SetRowLabelValue(18, "difficulty");
+		$this->gridProp->SetRowLabelValue(19, "generator-settings");
+		$this->gridProp->SetRowLabelValue(20, "level-name");
+		$this->gridProp->SetRowLabelValue(21, "level-seed");
+		$this->gridProp->SetRowLabelValue(22, "level-type");
+		$this->gridProp->SetRowLabelValue(23, "rcon.password");
+		$this->gridProp->SetRowLabelValue(24, "auto-save");
+		$this->gridProp->SetRowLabelAlignment(wxALIGN_LEFT, wxALIGN_CENTRE);
+
+		$this->gridProp->SetDefaultCellAlignment(wxALIGN_LEFT, wxALIGN_TOP);
+		$bSizer->Add($this->gridProp, 1, wxALL|wxEXPAND, 5);
+
+		$sdbSizer = new \wxStdDialogButtonSizer();
+		$this->sdbSizerSave = new \wxButton($this, wxID_SAVE);
+		$sdbSizer->AddButton($this->sdbSizerSave );
+		$this->sdbSizerCancel = new \wxButton( $this, wxID_CANCEL);
+		$sdbSizer->AddButton($this->sdbSizerCancel);
+		$sdbSizer->Realize();
+		$bSizer->Add($sdbSizer, 0, wxEXPAND, 5);
+
+		$this->SetSizer($bSizer);
+		$this->Layout();
+
+		$this->Centre(wxBOTH);
+		
+		$this->sdbSizerCancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, array($this, "OnCancelButtonClick"));
+		$this->sdbSizerSave->Connect(wxEVT_COMMAND_BUTTON_CLICKED, array($this, "OnSaveButtonClick"));
+
+
+	}
+	
+	function OnCancelButtonClick($event){
+		$event->Skip();
+	}
+	
+	function OnSaveButtonClick($event){
+		$event->Skip();
+	}
+	
+	
+	function __destruct( ){
+	}
+	
+}
+
+class PocketMineGui extends \wxApp {
 	function OnInit() {
 		wxInitAllImageHandlers();
-		$this->mf = new mainFrame();
+		$this->mf = new frmMain();
 		$this->mf->Show();
 		return true;
 	}
@@ -184,7 +281,7 @@ class pmGui extends \wxApp {
 	}
 }
 
-$app = new pmGui();
+$app = new PocketMineGui();
 \wxApp::SetInstance($app);
 wxEntry();
 
